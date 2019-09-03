@@ -4,7 +4,7 @@ from sklearn.preprocessing import LabelEncoder
 from anndata import AnnData
 from typing import Optional
 from time import time
-from FlowGrid._FlowGrid_fun import *
+from FlowGrid._FlowGrid import *
 def calinski_harabasz_score(X, labels):
     """Compute the Calinski and Harabasz score.
     It is also known as the Variance Ratio Criterion.
