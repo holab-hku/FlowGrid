@@ -7,8 +7,8 @@ setup(
   description = 'FlowGrid implemented in Scanpy',   # Give a short description about your library
   author = 'Xiunan Fang',                   # Type in your name
   author_email = 'xiunan@hku.hk',      # Type in your E-Mail
-  url = 'https://github.com/VCCRI/FlowGrid',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/xfanuu/FlowGrid/archive/v_01.tar.gz',    # I explain this later on
+  url = 'https://github.com/holab_hku/FlowGrid',   # Provide either the link to your github or to your website
+  download_url = 'https://github.com/holab_hku/FlowGrid/archive/v_01.tar.gz',    # I explain this later on
   keywords = ['Single Cell RNA-seq', 'Scanpy', 'Clustering'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
           'numpy',
