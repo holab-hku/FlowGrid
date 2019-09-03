@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'FlowGrid',         # How you named your package folder (MyLib)
   packages = ['FlowGrid'],   # Chose the same as "name"
-  version = '0.01',      # Start with a small number and increase it with every change you make
+  version = '0.10',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'FlowGrid implemented in Scanpy',   # Give a short description about your library
   author = 'Xiunan Fang',                   # Type in your name
