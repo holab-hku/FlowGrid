@@ -60,8 +60,8 @@ You can use autoFlowGrid to do clustering for the data automatically.
 ```sh
 #recomm_parameters = FlowGrid.autoFlowGrid(adata, int(set_n), list(binN_range), list(eps_range))
 ```
-Default binN_range = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25] 
-Default eps_range = [1.2, 1.6, 1.9, 2.1, 2.3, 2.7]
+Default binN_range = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]   
+Default eps_range = [1.2, 1.6, 1.9, 2.1, 2.3, 2.7]  
 By default, 16*6 executions will be performed and the clustering results will be stored in Anndata.obs. By specifing set_n, n recommended parameters will be returned as a list. By experiment the default parameters should cover all possible good results. Users can also specify binN_range and eps_range to reduce computational time.  
 Sample usage is as follows:
 
@@ -79,6 +79,7 @@ sc.tl.umap(adata)
 for i in range(len(recomm_parameters)):
     sc.pl.umap(adata, color=recomm_parameters[i],frameon =False)
 ```
+### NOTE
 #### Run FlowGrid with specified parameters
 You can also specify the parameter to do clustering. 
 ```sh
