@@ -15,9 +15,9 @@ Running Flowgrid within Scanpy for scRNA-seq analysis
 | requirement | location |
 | ------ | ------ |
 | Package: Scanpy | https://scanpy.readthedocs.io/en/stable/ |
-| Data: Mouse gut endoderm data set | [https://endoderm-explorer.com/] |
+| Data: Mouse gut endoderm data set [https://endoderm-explorer.com/] | https://s3.amazonaws.com/dp-lab-data-public/mouse_endoderm/sc_endoderm_all_cells.h5ad|
 
-### Remind
+### Remind！
 The result of the steps below and detailed workflow can be found in the sc_FlowGrid Example.ipynb
 
 #### Install the packages
