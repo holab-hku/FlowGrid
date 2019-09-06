@@ -5,7 +5,7 @@ FlowGrid density-based clustering algorithm that can perform fast and accurate c
 ### Installation
 FlowGrid supports pip installation.
 ```sh
-pip install FlowGrid
+pip install FlowGrid / pip3 install FlowGrid
 ```
 
 ### Example1:
@@ -15,7 +15,11 @@ Running Flowgrid within Scanpy for scRNA-seq analysis
 | requirement | location |
 | ------ | ------ |
 | Package: Scanpy | https://scanpy.readthedocs.io/en/stable/ |
-| Data: Mouse gut endoderm data set | [https://endoderm-explorer.com/] | 
+| Data: Mouse gut endoderm data set | [https://endoderm-explorer.com/] |
+
+### Remind
+The result of the steps below and detailed workflow can be found in the sc_FlowGrid Example.ipynb
+
 #### Install the packages
 ```sh
 pip install FlowGrid
@@ -112,8 +116,7 @@ Sample usage is as follows:
 ```sh
 FlowGrid.keep_labels(adata,  ['binN_9_eps_1.1_FlowGrid', 'binN_11_eps_1.2_FlowGrid'])
 ```
-### RESULT!!
-The result of the steps above and detailed workflow can be found in the sc_FlowGrid Example.ipynb
+
 
 
 
