@@ -61,8 +61,8 @@ def autoFlowGrid(
 ) -> Optional[AnnData]:
     t0=time()
     adata = adata.copy() if copy else adata
-    Bin_n = Bin_n if Bin_n else [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    Eps = Eps if Eps else [1.2, 1.6, 1.9, 2.1, 2.3, 2.7]
+    Bin_n = Bin_n if Bin_n else [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    Eps = Eps if Eps else [1.2, 1.6, 1.8]
     feature_data = adata.obsm['X_pca'].astype('Float64')
     CHixNobs_values = {}
     for bin_n in Bin_n:
