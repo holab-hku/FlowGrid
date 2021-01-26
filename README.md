@@ -28,7 +28,7 @@ pip install scanpy
 #### Import the packages and do the basic setting
 ```sh
 import FlowGrid as fg
-import scanpy= as sc
+import scanpy as sc
 ```
 #### Load the data
 
@@ -62,7 +62,7 @@ By default, 11*8 executions will be performed and the clustering results will be
 Sample usage is as follows:
 
 ```sh
-recomm_parameters = FlowGrid.autoFlowGrid(adata, 5)
+recomm_parameters, CHI_reports = FlowGrid.autoFlowGrid(adata, 5)
 ```
 #### Visualize the result
 ```sh
@@ -96,7 +96,7 @@ Adjusted Rand index can be calculated when there are reference labels, or you ca
 *reflabel_list* is the ref label list to be used as a reference.  
 Sample usage is as follows:
 ```sh
-FlowGrid.AdjustedRandScore(adata, ['binN_14_eps_1.2_FlowGrid', 'louvain'], ['Timepoint', 'CellType'])
+FlowGrid.AdjustedRandScore(adata, ['binN_10_eps_1.0_FlowGrid', 'louvain'], ['maintype', 'celltype'])
 ```
 #### Keep only valuable results
 Unneccessary results can be removed to make Anndata.obs more clean.
@@ -106,7 +106,7 @@ Unneccessary results can be removed to make Anndata.obs more clean.
 *remain_list* is the list of FlowGrid clustering results you want to reserve.  
 Sample usage is as follows:
 ```sh
-FlowGrid.keep_labels(adata,  ['binN_9_eps_1.1_FlowGrid', 'binN_11_eps_1.2_FlowGrid'])
+FlowGrid.keep_labels(adata,  ['binN_9_eps_1.1_FlowGrid', 'binN_10_eps_1.0_FlowGrid'])
 ```
 
 
