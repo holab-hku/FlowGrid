@@ -8,7 +8,7 @@ setup(
   author = 'Xiunan Fang',                   
   author_email = 'xiunan@hku.hk',      
   url = 'https://github.com/holab_hku/FlowGrid',   
-  download_url = 'https://github.com/holab_hku/FlowGrid/archive/v_01.tar.gz',    
+  download_url = 'https://github.com/holab_hku/FlowGrid/archive/v0.tar.gz',    
   keywords = ['Single Cell RNA-seq', 'Scanpy', 'Clustering'],   
   install_requires=[           
           'numpy',
