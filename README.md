@@ -27,7 +27,7 @@ pip install scanpy
 ```
 #### Import the packages and do the basic setting
 ```sh
-import FlowGrid as fg
+import FlowGrid
 import scanpy as sc
 ```
 #### Load the data
