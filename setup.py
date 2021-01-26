@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'FlowGrid',         
   packages = ['FlowGrid'],   
-  version = 'v0.11',      
+  version = 'v0',      
   license='MIT',        
   description = 'FlowGrid implemented in Scanpy',   
   author = 'Xiunan Fang',                   
