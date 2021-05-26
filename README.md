@@ -110,7 +110,15 @@ FlowGrid.keep_labels(adata,  ['binN_9_eps_1.1_FlowGrid', 'binN_10_eps_1.0_FlowGr
 ```
 
 
+#### consensusFlowGrid
+ConsensusFlowGrid can be used for high-dimensional data. 
 
+Sample usage is as follows:
+```sh
+sc.tl.pca(adata100k, n_comps=20)
+consensusResult = consensusFlowGrid(adata, nDims = 20)
+
+```
 
 
 License
