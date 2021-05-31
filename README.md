@@ -1,8 +1,9 @@
 # FlowGrid
 
 FlowGrid density-based clustering algorithm that can perform fast and accurate clustering on very large scRNA-seq data sets. It can be implemented with Scanpy for fast clustering of Scanpy Anndata.
-</p>
+
 ![](https://github.com/holab-hku/FlowGrid/blob/master/image/workflow.png)
+
 ### Installation
 FlowGrid supports pip installation.
 ```sh
