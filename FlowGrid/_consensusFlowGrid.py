@@ -1,3 +1,12 @@
+import ClusterEnsembles as CE 
+import numpy as np
+import pandas as pd
+from anndata import AnnData
+from natsort import natsorted
+from typing import Optional
+from time import time
+from FlowGrid._FlowGrid import *
+
 def consensusFlowGrid(
     adata: AnnData,
     nTop: Optional[int] = 5,
@@ -8,12 +17,14 @@ def consensusFlowGrid(
     nCluster: Optional[int] = 5,
     penalty: Optional[float] = 1.0,
     MinCHI: Optional[int] = 5000,
-    MaxNoise: Optional[float] = 0.1,
+    MaxNoise: Optional[float] = 0.15,
     DimRMethod: Optional[str] = 'PCA',
     copy: bool = False,
     chunked: bool = False,
     chunk_size: Optional[int] = None,
     nDims: Optional[int] = 20,
+    nBases: Optional[int] = None,
+    nClass: Optional[int] = None,
     
 ) -> Optional[AnnData]:
     t0=time()
@@ -46,87 +57,36 @@ def consensusFlowGrid(
         for bin_n in Bin_n:
             
             cluster(adata,MinDenB,bin_n,eps,MinDenC,DimRMethod)
-
-            if MinDenB or MinDenC:                                    
-                label_data = adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+ str(eps)+ '_MinDenC_' + str(MinDenC)+'_FlowGrid'].tolist()
-                if MaxNobs == -1:
-                    MaxNobs = len(set(label_data))
-                else:
-                    if len(set(label_data)) >= MaxNobs:
-                        MaxNobs = len(set(label_data))
-                    else:
-                        MaxNobs = MaxNobs
-                if label_data.count('-1.0')/len(label_data) > MaxNoise:
-                    break
-                if len(set(label_data)) < nCluster:
-                    del adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']
-                    continue
-                indices = [i for i, x in enumerate(label_data) if x != "-1.0"]
-                CHI = calinski_harabasz_score(feature_data2[indices], list(filter(lambda a: a != '-1.0', label_data)))
-                if CHI < MinCHI or CHI != CHI:
-                    del adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']
-                    continue
-                
-                CHixNobs_values['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']\
-                = [round(CHI * len(set(label_data))**(penalty),0), round(CHI,0), len(set(label_data)), label_data.count('-1.0')/len(label_data)] 
-            
+                                  
+            label_data = adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+ str(eps)+ '_MinDenC_' + str(MinDenC)+'_FlowGrid'].tolist()
+            if MaxNobs == -1:
+                MaxNobs = len(set(label_data))
             else:
-                label_data = adata.obs['binN_'+str(bin_n)+'_eps_'+ str(eps)+'_FlowGrid'].tolist()
-                if MaxNobs == -1:
+                if len(set(label_data)) >= MaxNobs:
                     MaxNobs = len(set(label_data))
                 else:
-                    if len(set(label_data)) >= MaxNobs:
-                        MaxNobs = len(set(label_data))
-                    else:
-                        MaxNobs = MaxNobs
-                if label_data.count('-1.0')/len(label_data) > MaxNoise:
-                    break
-                if len(set(label_data)) < nCluster:
-                    del adata.obs['binN_'+str(bin_n)+'_eps_'+str(eps)+'_FlowGrid']
-                    continue
-                indices = [i for i, x in enumerate(label_data) if x != "-1.0"]
-                CHI = calinski_harabasz_score(feature_data2[indices], list(filter(lambda a: a != '-1.0', label_data)))
-                if CHI < MinCHI or CHI != CHI:
-                    del adata.obs['binN_'+str(bin_n)+'_eps_'+str(eps)+'_FlowGrid']
-                    continue
-                    
-                CHixNobs_values['binN_'+str(bin_n)+'_eps_'+str(eps)+'_FlowGrid']\
-                = [round(CHI * len(set(label_data))**(penalty),0), round(CHI,0), len(set(label_data)), label_data.count('-1.0')/len(label_data)] 
-        
+                    MaxNobs = MaxNobs
+            if label_data.count('-1.0')/len(label_data) > MaxNoise:
+                break
+            if len(set(label_data)) < nCluster:
+                del adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']
+                continue
+            indices = [i for i, x in enumerate(label_data) if x != "-1.0"]
+            CHI = calinski_harabasz_score(feature_data[indices], list(filter(lambda a: a != '-1.0', label_data)))
+            if CHI < MinCHI or CHI != CHI:
+                del adata.obs['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']
+                continue
+
+            CHixNobs_values['MinDenB_'+ str(MinDenB)+'_binN_'+str(bin_n)+'_eps_'+str(eps)+'_MinDenC_' + str(MinDenC)+'_FlowGrid']\
+            = [round(CHI * len(set(label_data))**(penalty),0), round(CHI,0), len(set(label_data)), label_data.count('-1.0')/len(label_data)] 
         if MaxNobs < nCluster:
-            break
-        
-    
+            break 
+            
     maxn_parameters1 = sorted(CHixNobs_values, key=CHixNobs_values.get, reverse=True)[:1]
-    adata.obs['FlowGrid1'] = adata.obs[maxn_parameters1]
-
     ps = maxn_parameters1[0].split('_')
-    allclusters = rcluster(adata, MinDenB = int(ps[1]), bin_n = int(ps[3]), eps = float(ps[5]), MinDenC = int(ps[7]),
-                               DimRMethod = DimRMethod, dimn = nDims)
-    
-                    
-    print("autoFlowGrid completed in : "+ str(round(time()-t0,3)) + " seconds.\n")
-    return maxn_parameters1,allclusters
-
-
-bin_n = 15
-eps = 5
-MinDenB = 200
-MinDenC = 500 
-def rcluster(
-    adata: AnnData,
-    MinDenB: Optional[int] = None,
-    bin_n: int = bin_n,
-    eps: float = eps, 
-    MinDenC: Optional[int] = None,
-    DimRMethod: Optional[str] = 'PCA',
-    copy: bool = False,
-    chunked: bool = False,
-    chunk_size: Optional[int] = None,   
-    dimn: Optional[int] = 20,
-) -> Optional[AnnData]:
-    
-    adata = adata.copy() if copy else adata
+    adata.obs['autoFlowGrid'] = adata.obs[maxn_parameters1]
+    dims= adata.obs[['autoFlowGrid']]
+    dims.columns = [0]
     if DimRMethod == 'PCA':
         projected_data = adata.obsm['X_pca'].astype(float)
     if DimRMethod == 'UMAP':
@@ -136,32 +96,48 @@ def rcluster(
     if DimRMethod == 'NMF':
         projected_data = adata.obsm['X_nmf'].astype(float)
     if DimRMethod == 'FA':
-        projected_data = adata.obsm['X_fa'].astype(float)   
-    
-    
-    dims= adata.obs[['FlowGrid1']]
-    dims.columns = [0]
-    
-    list_dims = list(range(3,dimn))
+        projected_data = adata.obsm['X_fa'].astype(float) 
+    list_dims = list(range(3,nDims))
     np.random.shuffle(list_dims)
-    for r in range((len(range(3,dimn))) // 2):
-        
-        dims3, list_dims = list_dims[-3:], list_dims[0:-3]
-        
-        projected5_data = projected_data[:,tuple(dims3 + [0,1,2])]    
-        CHixNobs_values = {}
-        n_dimension = projected5_data.shape[1]
-        transposed_pdata =[]
-        for i in range(n_dimension):
-            positive_pdata = projected5_data[:,i] - np.amin(projected5_data[:,i])
-            transposed_pdata.append(positive_pdata)
-        shifted_pdata = np.array(transposed_pdata).transpose()
-        shifted_pdata = shifted_pdata.astype(float)
+    if nBases:
+        for r in range(nBases):
+            rdims3 = random.sample(range(3, nDims), 3)
+            projected6_data = projected_data[:,tuple(rdims3 + [0,1,2])]    
+            CHixNobs_values = {}
+            n_dimension = projected5_data.shape[1]
+            transposed_pdata =[]
+            for i in range(n_dimension):
+                positive_pdata = projected6_data[:,i] - np.amin(projected6_data[:,i])
+                transposed_pdata.append(positive_pdata)
+            shifted_pdata = np.array(transposed_pdata).transpose()
+            shifted_pdata = shifted_pdata.astype(float)
+            fg_object = FlowGrid(shifted_pdata, MinDenB = int(ps[1]), bin_n = int(ps[3]), eps = math.sqrt(float(ps[5])), MinDenC = int(ps[7]))
+            flowgrid_label = fg_object.clustering()
+            dims[r + 1] = flowgrid_label
+    else:
+        for r in range((len(range(3,nDims))) // 3):
+            dims3, list_dims = list_dims[-3:], list_dims[0:-3]
 
-        fg_object = FlowGrid(shifted_pdata, MinDenB = MinDenB, bin_n = bin_n, eps = math.sqrt(eps), MinDenC = MinDenC)
-
-
-        flowgrid_label = fg_object.clustering()
-
-        dims[r + 1] = flowgrid_label
-    return dims
+            projected6_data = projected_data[:,tuple(dims3 + [0,1,2])]    
+            CHixNobs_values = {}
+            n_dimension = projected6_data.shape[1]
+            transposed_pdata =[]
+            for i in range(n_dimension):
+                positive_pdata = projected6_data[:,i] - np.amin(projected6_data[:,i])
+                transposed_pdata.append(positive_pdata)
+            shifted_pdata = np.array(transposed_pdata).transpose()
+            shifted_pdata = shifted_pdata.astype(float)
+            fg_object = FlowGrid(shifted_pdata, MinDenB = int(ps[1]), bin_n = int(ps[3]), eps = math.sqrt(float(ps[5])), MinDenC = int(ps[7]))
+            flowgrid_label = fg_object.clustering()
+            dims[r + 1] = flowgrid_label
+    if nClass:
+        consF = CE.cluster_ensembles(dims.values.T, nclass=nClass,solver='mcla',verbose = True)
+    else:  
+        consF = CE.cluster_ensembles(dims.values.T, nclass=len(set(adata.obs['autoFlowGrid'])),solver='mcla',verbose = True)
+    adata.obs['consensusFlowGrid'] = consF.astype(str)
+    for label in adata.obs.columns:
+        if 'binN_' in label:
+            del adata.obs[label]
+    print("ConsensusFlowGrid completed in : "+ str(round(time()-t0,3)) + " seconds.\n")
+    
+    
