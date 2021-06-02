@@ -2,6 +2,8 @@
 
 FlowGrid density-based clustering algorithm that can perform fast and accurate clustering on very large scRNA-seq data sets. It can be implemented with Scanpy for fast clustering of Scanpy Anndata.
 
+![](https://github.com/holab-hku/FlowGrid/blob/master/image/workflow.png)
+
 ### Installation
 FlowGrid supports pip installation.
 ```sh
@@ -56,9 +58,9 @@ You can use autoFlowGrid to do clustering for the data automatically.
 ```sh
 #recomm_parameters = FlowGrid.autoFlowGrid(adata, int(set_n), list(binN_range), list(eps_range), list(MinDenB_range), list(MinDenC_range))
 ```
-Default binN_range = [5,6,7,8,9,10,11,12,13,14,15] 
-Default eps_range = [0.6,0.8,1.0,1.2,1.4,1.6,1.8,2.0]
-By default, 11*8 executions will be performed and the clustering results will be stored in Anndata.obs. By specifing set_n, n recommended parameters will be returned as a list. By experiment the default parameters should cover all possible good results. Users can also specify binN_range and eps_range to reduce computational time.  
+FlowGrid is extremely good at scalability, so we can implement a wide range parameter space of bin_n and eps, where eps = [1,2,3,4,5] and bin_n=[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]. autoFlowGrid will iterate all good possibilities of bin_n and eps with effective pruning strategy.
+Users can also specify binN_range and eps_range to reduce computational time.  
+
 Sample usage is as follows:
 
 ```sh
