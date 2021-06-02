@@ -1,6 +1,7 @@
 import ClusterEnsembles as CE 
 import numpy as np
 import pandas as pd
+import math
 from anndata import AnnData
 from natsort import natsorted
 from typing import Optional
