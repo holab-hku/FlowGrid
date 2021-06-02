@@ -1,4 +1,5 @@
 import ClusterEnsembles as CE 
+from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import pandas as pd
 import math
