@@ -3,7 +3,7 @@ import pandas as pd
 from anndata import AnnData
 from natsort import natsorted
 from typing import Optional
-from sklearn.metrics import adjusted_rand_score as ARI
+from sklearn.metrics import adjusted_rand_score
 from FlowGrid._FlowGrid import *
 
 

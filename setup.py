@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
   name = 'FlowGrid',         
   packages = ['FlowGrid'],   
-  version = 'v2.0.1',      
+  version = 'v1.0.2',      
   license='MIT',        
   description = 'FlowGrid implemented with Scanpy',   
   author = 'Xiunan Fang',                   
   author_email = 'xiunanFANG@connect.hku.hk',      
   url = 'https://github.com/holab_hku/FlowGrid',   
-  download_url = 'https://github.com/holab-hku/FlowGrid/archive/refs/tags/v2.0.1.tar.gz',    
+  download_url = 'https://github.com/holab-hku/FlowGrid/archive/refs/tags/v1.0.2.tar.gz',    
   keywords = ['Single Cell RNA-seq', 'Scanpy', 'Clustering', 'FlowGrid'],   
   install_requires=[           
           'numpy',
